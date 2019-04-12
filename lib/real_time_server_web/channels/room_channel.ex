@@ -11,13 +11,16 @@ defmodule RealTimeServerWeb.RoomChannel do
   end
 
   def handle_info(:after_join, socket) do
-    spawn(__MODULE__, :sent_after, [socket])
+    cycle = Stream.cycle(["abc", "def", "ghi", "jkl", "mno"])
+    spawn(__MODULE__, :sent_after, [socket, cycle])
     {:noreply, socket}
   end
 
-  def sent_after(socket) do
+  def sent_after(socket, cycle) do
+    n = Enum.random(0..10)
+    elem = cycle |> Enum.take(n) |> List.last()
     Process.sleep(1000)
-    broadcast!(socket, "tick", %{message: "demo"})
-    sent_after(socket)
+    broadcast!(socket, "tick", %{message: elem})
+    sent_after(socket, cycle)
   end
 end
