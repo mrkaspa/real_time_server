@@ -20,7 +20,7 @@ defmodule RealTimeServerWeb.RoomChannel do
     n = Enum.random(0..10)
     elem = cycle |> Enum.take(n) |> List.last()
     Process.sleep(1000)
-    broadcast!(socket, "tick", %{message: elem})
+    broadcast!(socket, "tick", %{message: elem, pid: inspect(self())})
     sent_after(socket, cycle)
   end
 end

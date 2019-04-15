@@ -63,7 +63,7 @@ channel.join()
 
 channel.on("tick", payload => {
   let messageItem = document.createElement("p")
-  messageItem.innerText = payload.message
+  messageItem.innerText = `${payload.message} from ${payload.pid}`
   messagesContainer.appendChild(messageItem)
 })
 
